@@ -1,5 +1,5 @@
 //My very first C++ program
-//The program will randomly generate two numbers from 1 to 6, add them together, and then ask to user to guess a number
+//The program will randomly generate two numbers from 1 to 6, add them together, and then ask the user to guess a number
 //If the user's guess is incorret, a new random number will be generated and the user will again be prompted for a guess
 //The program ends only when the user guesses correctly
 
