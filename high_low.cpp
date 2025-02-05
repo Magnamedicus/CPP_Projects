@@ -141,7 +141,7 @@ int main() {
 
      else if (guess == "equal" || guess == "Equal"){
 
-        if (num2 = num) {
+        if (num2 == num) {
 
             std::cout << "The " << num2 << " card was drawn, which is equal to the previous card. You won the game!\n";
             std::cout << "\nThe final score is Player: " << player_score << ", Computer: " << computer_score << ".\n";
