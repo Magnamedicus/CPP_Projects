@@ -21,7 +21,7 @@ public:
 	AFlyer();
 
 	UPROPERTY(EditAnywhere, Category = "Flight")
-	float Acceleration{30.f};
+	float Acceleration{0.0f};
 
 	UPROPERTY(EditAnywhere, Category = "Flight")
 	float MaxSpeed{4000.f};
@@ -49,6 +49,7 @@ protected:
 
 	void ProcessKeyPitch(float Rate);
 	void ProcessKeyRoll(float Rate);
+	void ProcessKeyThrottle(float Rate);
 
 	void ProcessMouseYInput(float Value);
 	void ProcessMouseXInput(float Value);
@@ -58,6 +59,8 @@ protected:
 
 	void ProcessRoll(float Value);
 	void ProcessPitch(float Value);
+
+	void ProcessThrottle(float Value);
 
 	//For detecting whether we are intentionally rolling or pitching
 	//Will be used to level us off when not actively rolling or pitching

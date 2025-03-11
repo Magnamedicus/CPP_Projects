@@ -21,6 +21,23 @@ void AFlyer::ProcessKeyRoll(float Rate) {
 
 }
 
+void AFlyer::ProcessKeyThrottle(float Rate) {
+	if (FMath::Abs(Rate) > 0.2f) {
+
+		ProcessThrottle(Rate *2.f);
+	}
+
+	else if (FMath::Abs(Rate) < 0.2f) {
+		Acceleration = 0;
+	}
+
+}
+
+void AFlyer::ProcessThrottle(float Value){
+
+	Acceleration += Value * 10.0f;
+}
+
 void AFlyer::ProcessRoll(float Value) {
 
 	bIntentionalRoll = FMath::Abs(Value) > 0.0f;
@@ -100,6 +117,9 @@ void AFlyer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UE_LOG(LogTemp, Display, TEXT("Acceleration: %f"), Acceleration);
+	UE_LOG(LogTemp, Display, TEXT("CurrentForwardSpeed: %f"), CurrentForwardSpeed);
+
 	//Calculate Thrust
 		//This line slows or speeds the plane based on nose pitch
 	//const float CurrentAcc = GetActorRotation().Pitch * DeltaTime * Acceleration;
@@ -109,8 +129,9 @@ void AFlyer::Tick(float DeltaTime)
 	//Clamping keeps a value from going below or above given parameters
 	//NewForwardSpeed will not drop below MinSpeed or rise above MaxSpeed
 	CurrentForwardSpeed = FMath::Clamp(NewForwardSpeed, MinSpeed, MaxSpeed);
+	Acceleration = FMath::Clamp(Acceleration, 0, 100);
 
-	const FVector LocalMove = FVector(CurrentForwardSpeed * DeltaTime, 0.0f, 0.0f);
+	const FVector LocalMove = FVector(NewForwardSpeed * DeltaTime, 0.0f, 0.0f);
 	AddActorLocalOffset(LocalMove, true);
 
 
@@ -132,6 +153,8 @@ void AFlyer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent -> BindAxis("TurnRate", this, &AFlyer::ProcessKeyRoll);
 	PlayerInputComponent -> BindAxis("LookUp", this, &AFlyer::ProcessMouseYInput);
 	PlayerInputComponent -> BindAxis("LookUpRate", this, &AFlyer::ProcessKeyPitch);
+	PlayerInputComponent -> BindAxis("ThrottleRate", this, &AFlyer::ProcessKeyThrottle);
+
 	
 
 }
